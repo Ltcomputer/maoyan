@@ -1,29 +1,58 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
+
+    <tabs v-model="selectIndex">
+      <tab-item v-for="(tabItem, index) in tabList" :key="index"
+        :name="tabItem.name" :icon="tabItem.icon">
+      </tab-item>
+    </tabs>
+
+
+      <!-- <div class="tab">
+          <router-link to="/movie">电影</router-link>
+          <router-link to="/cinema">影院</router-link>
+          <router-link to="/mine">我的</router-link>
+      </div> -->
   </div>
 </template>
-
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+export default {
+  data(){
+    return {
+      tabList: [
+        {name: '电影', icon: 'iconfont iconfont-movie', path: '/movie'},
+        {name: '影院', icon: 'iconfont iconfont-yingyuan', path: '/cinema'},
+        {name: '我的', icon: 'iconfont iconfont-wode', path: '/mine'}
+      ],
+      selectIndex: 0
+    }
+  },
+  watch: {
+    selectIndex(newVal){
+      let path = this.tabList[newVal].path;
+      this.$router.push(path);
     }
   }
 }
+</script>
+
+
+<style lang="scss">
+    // .tab{
+    //   position: absolute;
+    //   left: 0;
+    //   bottom: 0;
+    //   width: 100%;
+    //   display: flex;
+    //   line-height: 49px;
+
+    //   justify-content: space-around;
+    //   .router-link-active{
+    //     color: lightblue;
+    //   }
+    // }
 </style>
